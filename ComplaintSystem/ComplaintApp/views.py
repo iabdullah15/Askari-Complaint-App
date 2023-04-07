@@ -15,6 +15,7 @@ def index(request:HttpRequest):
 
     return render(request, 'index.html')
 
+
 def resident_dashboard(request:HttpRequest):
 
     if request.user.is_authenticated:
