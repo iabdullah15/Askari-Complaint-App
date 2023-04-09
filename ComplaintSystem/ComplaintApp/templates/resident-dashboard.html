@@ -1,9 +1,0 @@
-{% extends 'base.html' %} {% block title %}
-<title>Resident Dashboard</title>
-{% endblock %} {% block content %}
-
-<a href="{% url 'home' %}">Back to homepage</a>
-
-<h1>Hello, {{ request.user.first_name }} {{ request.user.last_name }}</h1>
-
-{% endblock %}

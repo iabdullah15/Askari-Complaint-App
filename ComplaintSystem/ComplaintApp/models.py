@@ -48,7 +48,23 @@ class Flat(models.Model):
     BuildingNo = models.ForeignKey(Building, on_delete=models.CASCADE)
     bedrooms = models.IntegerField()
     bathrooms = models.IntegerField()
-    resident = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
+    resident = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, limit_choices_to={'groups__name': 'Resident'})
 
     def __str__(self) -> str:
         return str(self.FlatNo)
+
+
+class Complaint(models.Model):
+
+    COMPLAINT_STATUS_CHOICES = (
+        ('one', 'Under review'), 
+        ('two', 'Being resolved'), 
+        ('three', 'Resolved')
+        )
+
+    ComplaintType = models.CharField(max_length=255)
+    ComplaintDescription = models.TextField()
+    ComplaintTime = models.DateTimeField(auto_now=True)
+    ComplaintStatus = models.CharField(max_length=50, choices=COMPLAINT_STATUS_CHOICES, default='Under review')
+    resident = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'groups__name': 'Resident'})
+    # employee = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='employee')

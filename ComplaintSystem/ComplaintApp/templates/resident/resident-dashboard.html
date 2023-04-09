@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block title %}
+<title>Resident Dashboard</title>
+{% endblock %} {% block content %}
+
+<p><a href="{% url 'home' %}">Back to homepage</a></p>
+<p><a href="{% url 'logout' %}">Logout</a></p>
+<p><a href="{% url 'view_resident_complaints' %}">My complaint history</a></p>
+<p><a href="{% url 'register_complaint' %}">File complaint</a></p>
+<h3>Hello, {{ request.user.first_name }} {{ request.user.last_name }}</h3>
+
+<p>Building: {{ flat.BuildingNo }}</p>
+<p>Your flat is: {{ flat }}</p>
+<hr />
+
+{% endblock %}

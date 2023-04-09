@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+
+{% block title %}
+<title>My complaints</title>
+{% endblock %} 
+
+{% block content %}
+
+<p><a href="{% url 'resident_dashboard' %}">Back to dashboard</a></p>
+
+{% if complaints %} {% for complain in complaints %} {{ forloop.counter }}
+<p>{{complain.ComplaintType}}</p>
+<p>{{complain.ComplaintDescription}}</p>
+<p>{{complain.ComplaintTime}}</p>
+<p>{{complain.ComplaintStatus}} </p>
+<hr>
+{% endfor %} 
+
+{% endif %} 
+
+{% endblock %}

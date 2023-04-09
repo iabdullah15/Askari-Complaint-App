@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from django.forms import ModelForm
 
-from .models import CustomUser
+from .models import CustomUser, Complaint
 from django import forms
 from django.contrib.auth.models import Group
 
@@ -55,3 +55,11 @@ class CustomUserAuthenticationForm(AuthenticationForm):
     class Meta:
         model = CustomUser
         fields = ['email']
+
+
+class RegisterComplaintForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Complaint
+        fields = ['ComplaintType', 'ComplaintDescription']
