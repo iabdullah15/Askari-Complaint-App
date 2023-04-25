@@ -1,7 +1,10 @@
-{% extends 'base.html' %} {% block title %}
-<title>Home</title>
+{% extends 'base.html' %} 
 
-{% endblock %} {% block content %} 
+{% block title %}
+<title>Home</title>
+{% endblock %} 
+
+{% block content %} 
 
 {% if request.user.is_authenticated %}
 
@@ -30,4 +33,6 @@
 <a href="{% url 'manager_login' %}">Login as manager</a>
 <p>Welcome Anonymous User</p>
 
-{% endif %} {% endblock %}
+{% endif %} 
+
+{% endblock %}

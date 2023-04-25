@@ -1,20 +1,31 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 <title>My complaints</title>
 {% endblock %} 
 
+{% block styles %}
+    <style>
+        .form-container {
+            width: 70%;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
+
 
 <p><a href="{% url 'resident_dashboard' %}">Back to dashboard</a></p>
 
 <form action="" method="POST">
-    {% csrf_token %}
+    <div class="container form-container">
+        
+        {% csrf_token %}
+        {{form|crispy}}
 
-    {{form.as_p}}
-    <button type="submit" class="btn btn-outline-dark">Submit</button>
-
+        <button type="submit" class="btn btn-outline-dark mt-4">Submit</button>
+    </div>
 </form>
 
 

@@ -9,15 +9,21 @@ from .models import CustomUser, Flat, Building, Complaint
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 import datetime as dt
+from django.contrib import messages
 
 # Create your views here.
 
 def index(request:HttpRequest):
 
+    if request.user.is_authenticated:
+
+        if request.user.groups.filter(name='Resident').exists():
+            return redirect(reverse_lazy('resident_dashboard'))
+        
+        elif request.user.groups.filter(name='Manager').exists():
+            return redirect(reverse_lazy('manager_dashboard'))
+
     return render(request, 'index.html')
-
-
-
 
 
 def resident_dashboard(request:HttpRequest):
@@ -29,11 +35,11 @@ def resident_dashboard(request:HttpRequest):
             
             flat = Flat.objects.get(resident = user)
             complaint = Complaint.objects.filter(resident = user).values()
-            # print(complaint)
 
             return render(request, 'resident/resident-dashboard.html', {'flat': flat, 'complaints':complaint})
         
     return redirect(reverse_lazy('home'))
+
 
 
 
@@ -50,6 +56,7 @@ def view_resident_complaints(request:HttpRequest):
     else:
         return redirect(reverse_lazy('home'))
     
+
 
 
 
@@ -74,7 +81,7 @@ def register_complaint(request:HttpRequest):
 
                 Complaint.objects.create(ComplaintType = comp_type,ComplaintTime = dt.datetime.now(), ComplaintDescription = comp_description, resident = user)
 
-                return redirect(reverse_lazy('register_complaint'))
+                return redirect(reverse_lazy('resident_dashboard'))
 
 
         return render(request, 'resident/register-complaint.html', {'form':form})
@@ -97,10 +104,15 @@ def login_resident(request:HttpRequest):
                 login(request, user)
                 return redirect(reverse_lazy('resident_dashboard'))
             
+            else:
+                messages.add_message(request, messages.INFO, "Invalid credentials.")
+            
     else:
         form = CustomUserAuthenticationForm()
 
     return render(request, 'resident/login-resident.html', {'form': form})
+
+
 
 
 
@@ -126,6 +138,8 @@ def login_manager(request:HttpRequest):
         form = CustomUserAuthenticationForm()
 
     return render(request, 'manager/login-manager.html', {'form':form})
+
+
 
 
 

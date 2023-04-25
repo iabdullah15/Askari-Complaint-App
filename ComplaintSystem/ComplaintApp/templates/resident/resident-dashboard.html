@@ -1,15 +1,107 @@
-{% extends 'base.html' %} {% block title %}
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %}
 <title>Resident Dashboard</title>
-{% endblock %} {% block content %}
+{% endblock %} 
 
-<p><a href="{% url 'home' %}">Back to homepage</a></p>
-<p><a href="{% url 'logout' %}">Logout</a></p>
-<p><a href="{% url 'view_resident_complaints' %}">My complaint history</a></p>
-<p><a href="{% url 'register_complaint' %}">File complaint</a></p>
-<h3>Hello, {{ request.user.first_name }} {{ request.user.last_name }}</h3>
 
-<p>Building: {{ flat.BuildingNo }}</p>
-<p>Your flat is: {{ flat }}</p>
-<hr />
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/resident-dashboard.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+
+<header id="header">
+    <section id="title">
+      <!-- Nav Bar -->
+
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg pt-3">
+          <h6 class="">
+            <i class="fa-regular fa-lg fa-user" style="color: #144394"></i>
+            Logged in as: {{request.user.first_name}} {{request.user.last_name}}
+          </h6>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav dashboard-nav ms-auto me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'register_complaint' %}"
+                  >File Complaint</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">My Complaints</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">My Profile</a>
+              </li>
+            </ul>
+            <div class="logout-btn">
+              <a href="{% url 'logout' %}" class="btn btn-outline-dark">Logout</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </header>
+
+  <main id="main-section">
+    <section class="main-heading-section">
+      <div class="container-fluid">
+        <h2 class="text-center">Resident Dashboard</h2>
+        <p class="text-center pt-3">Recently made complaints:</p>
+      </div>
+    </section>
+    <section class="complaints">
+      <div class="container-fluid scrollme">
+
+
+        <table
+          class="table caption-top table-responsive table-hover table-striped">
+          <caption>
+            List of residents
+          </caption>
+
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Complaint Type</th>
+              <th scope="col">Complaint Time</th>
+              <th scope="col">Complaint Status</th>
+            </tr>
+          </thead>
+
+          <tbody class="table-group-divider">
+
+            {% for complain in complaints %}
+
+            <tr>
+              <th scope="row"> {{forloop.counter}} </th>
+              <td>{{complain.ComplaintType}}</td>
+              <td>{{complain.ComplaintTime}} </td>
+              <td>{{complain.ComplaintStatus}} </td>
+              <td><a href="#" class="btn btn-outline-dark btn-sm">More Details</a></td>
+            </tr>
+            
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
 
 {% endblock %}
